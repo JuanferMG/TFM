@@ -9,7 +9,7 @@ num.factors.optimo.kmeans<-factoextra::fviz_nbclust(res.nbclust) +
   theme_minimal() + 
   ggtitle("N\u00FAmero \u00F3ptimo de clusters para K-Means") + 
   labs(x = "N\u00FAmero de clusters k", y = "Frecuencia")
-png("NbClust K-means.png", width = 12, height = 6, units = 'in', res = 300)
+png("NbClust K-Means.png", width = 12, height = 6, units = 'in', res = 300)
 num.factors.optimo.kmeans
 dev.off()
 # Fijamos el numero de clusters en 5
@@ -24,7 +24,7 @@ ClusterKmeans<-as.factor(KMclus$cluster)
 # Visualizamos los clusters sobre las puntuaciones factoriales
 rownames(PUNTUACIONES)<-etiquetas
 # TC1xTC2
-png(paste0("Diagrama de dispersi\u00F3n K-means TC1xTC2.png"), 
+png(paste0("Diagrama de dispersi\u00F3n K-Means TC1xTC2.png"), 
     width = 12, height = 6, units = 'in', res = 300)
 fviz_cluster(object = KMclus, data = PUNTUACIONES, 
              choose.vars = c("TC1","TC2")) + theme_minimal()  +
@@ -34,7 +34,7 @@ fviz_cluster(object = KMclus, data = PUNTUACIONES,
   theme(legend.position = "none")
 dev.off()
 # TC1xTC3
-png(paste0("Diagrama de dispersi\u00F3n K-means TC1xTC3.png"), 
+png(paste0("Diagrama de dispersi\u00F3n K-Means TC1xTC3.png"), 
     width = 12, height = 6, units = 'in', res = 300)
 fviz_cluster(object = KMclus, data = PUNTUACIONES, 
              choose.vars = c("TC1","TC3")) + theme_minimal()  +
@@ -44,7 +44,7 @@ fviz_cluster(object = KMclus, data = PUNTUACIONES,
   theme(legend.position = "none")
 dev.off()
 # TC2xTC3
-png(paste0("Diagrama de dispersi\u00F3n K-means TC2xTC3.png"), 
+png(paste0("Diagrama de dispersi\u00F3n K-Means TC2xTC3.png"), 
     width = 12, height = 6, units = 'in', res = 300)
 fviz_cluster(object = KMclus, data = PUNTUACIONES, 
              choose.vars = c("TC2","TC3")) + theme_minimal()  +
@@ -188,7 +188,7 @@ metodo="Average-Linkage"
 valor_ok<-clus_cut11
 # Obtenemos el dendograma
 clus$labels<-etiquetas
-png("Dendograma 11 average.png", width = 12, height = 12, units = 'in', res = 300)
+png("Dendograma 11 Average-Linkage.png", width = 12, height = 12, units = 'in', res = 300)
 plot(as.phylo(clus), type = "fan", tip.color = colors11[clus_cut11], 
      label.offset = 0, cex = 1.2,cex.main=2, cex.sub=1.5,
      main=paste0("Barrios de Val\u00E8ncia agrupados en 11 clusters"), 
