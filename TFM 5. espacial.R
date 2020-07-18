@@ -64,17 +64,22 @@ for(j in 1:ncol(Pseudo.P.Valores_simulaciones)){
   }
 }
 # Aseveramos que el valor original del coeficiente de Moran no es fruto del azar
-sum(Pseudo.P.Valores_simulaciones<0.01)/(ncol(PUNTUACIONES)*nrow(PUNTUACIONES))*100 
+sum(Pseudo.P.Valores_simulaciones<=0.01)/(ncol(PUNTUACIONES)*nrow(PUNTUACIONES))*100 
 # La funcion localmoran devuelve un p-valor
-P.Local_Moran_I<-apply(PUNTUACIONES, 2, 
-                       function(x) localmoran(x = x,listw = W, 
-                                              zero.policy = T, na.action = na.exclude)[,"Pr(z > 0)"])
+P.Local_Moran_I<-apply(PUNTUACIONES, 2, function(x) 
+  localmoran(x = x,listw = W, zero.policy = T, na.action = na.exclude)[,"Pr(z > 0)"])
 rownames(P.Local_Moran_I)<-NULL
 P.Local_Moran_I[is.na(P.Local_Moran_I)]<-1
 # Pero utilizamos el pseudo p-valor resultante del metodo Monte Carlo empleado
 P.Local_Moran_I<-Pseudo.P.Valores_simulaciones
 rownames(P.Local_Moran_I)<-NULL
 colnames(P.Local_Moran_I)<-paste0("TC",1:ncol(PUNTUACIONES))
+
+# ***********************
+
+# Bonferroni Bound
+
+pv<-0.01/85
 
 #*************************
 
@@ -84,26 +89,30 @@ PUNTUACIONES_LISA$sTC1<-scale(PUNTUACIONES_LISA$TC1)
 PUNTUACIONES_LISA$lag_sTC1 <- lag.listw(W, PUNTUACIONES_LISA$sTC1, 
                                         zero.policy = T, NAOK = T)
 # Identificamos el cuadrante en el grafico de Moran de cada observacion
-PUNTUACIONES_LISA$quad_sig <- NA
-PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC1 > 0 & PUNTUACIONES_LISA$lag_sTC1 > 0) & 
-                    (P.Local_Moran_I[,"TC1"] <= 0.01), "quad_sig"] <- 1
-PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC1 <= 0 & PUNTUACIONES_LISA$lag_sTC1 <= 0) & 
-                    (P.Local_Moran_I[,"TC1"] <= 0.01), "quad_sig"] <- 2
-PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC1 > 0 & PUNTUACIONES_LISA$lag_sTC1 <= 0) & 
-                    (P.Local_Moran_I[,"TC1"] <= 0.01), "quad_sig"] <- 3
-PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC1 <= 0 & PUNTUACIONES_LISA$lag_sTC1 > 0) & 
-                    (P.Local_Moran_I[,"TC1"] <= 0.01), "quad_sig"] <- 4
-PUNTUACIONES_LISA[is.na(PUNTUACIONES_LISA$quad_sig), "quad_sig"] <- 5
 clases<-c("Alto-Alto", "Bajo-Bajo", "Alto-Bajo", "Bajo-Alto", "No signif.")
 colors <- c("red", "blue", "lightpink", "skyblue2", "white")
-table(PUNTUACIONES_LISA$quad_sig)
+paleta_lisa<-c('Alto-Alto'='red', 'Bajo-Bajo'='blue', 
+               'Alto-Bajo'='lightpink', 'Bajo-Alto'='skyblue2', 
+               'No signif.'='white')
+PUNTUACIONES_LISA$quad_sig <- NA
+PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC1 > 0 & PUNTUACIONES_LISA$lag_sTC1 > 0) & 
+                    (P.Local_Moran_I[,"TC1"] <= pv), "quad_sig"] <- 1
+PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC1 <= 0 & PUNTUACIONES_LISA$lag_sTC1 <= 0) & 
+                    (P.Local_Moran_I[,"TC1"] <= pv), "quad_sig"] <- 2
+PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC1 > 0 & PUNTUACIONES_LISA$lag_sTC1 <= 0) & 
+                    (P.Local_Moran_I[,"TC1"] <= pv), "quad_sig"] <- 3
+PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC1 <= 0 & PUNTUACIONES_LISA$lag_sTC1 > 0) & 
+                    (P.Local_Moran_I[,"TC1"] <= pv), "quad_sig"] <- 4
+PUNTUACIONES_LISA[is.na(PUNTUACIONES_LISA$quad_sig), "quad_sig"] <- 5
+as.numeric(names(table(PUNTUACIONES_LISA$quad_sig)))
 sum(P.Local_Moran_I[,"TC1"]<0.01)
 barrios$quad_sig<-clases[PUNTUACIONES_LISA$quad_sig]
+# Definimos los colores
+colores_lisa<-paleta_lisa[as.numeric(names(table(PUNTUACIONES_LISA$quad_sig)))]
+
 # Dibujamos el mapa LISA para el primer factor
-qtm1<-qtm(shp = barrios, fill = "quad_sig", fill.title="LISA", 
-          fill.palette=c('Alto-Alto'='red', 'Alto-Bajo'='lightpink', 
-                         'Bajo-Alto'='skyblue2', 'Bajo-Bajo'='blue', 
-                         'No signif.'='white'))+
+qtm1<-qtm(shp = barrios, fill = "quad_sig", fill.title="LISA",
+          fill.palette=colores_lisa)+
   tm_layout(legend.width = 0.7, main.title = "TC1", main.title.size = 0.8)
 png("LISA TC1.png", width = 9, height = 5, units = 'in', res = 300)
 qtm1
@@ -115,24 +124,23 @@ PUNTUACIONES_LISA$lag_sTC2 <- lag.listw(W, PUNTUACIONES_LISA$sTC2,
 # Identificamos el cuadrante en el grafico de Moran de cada observacion
 PUNTUACIONES_LISA$quad_sig <- NA
 PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC2 > 0 & PUNTUACIONES_LISA$lag_sTC2 > 0) & 
-                    (P.Local_Moran_I[,"TC2"] <= 0.01), "quad_sig"] <- 1
+                    (P.Local_Moran_I[,"TC2"] <= pv), "quad_sig"] <- 1
 PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC2 <= 0 & PUNTUACIONES_LISA$lag_sTC2 <= 0) & 
-                    (P.Local_Moran_I[,"TC2"] <= 0.01), "quad_sig"] <- 2
+                    (P.Local_Moran_I[,"TC2"] <= pv), "quad_sig"] <- 2
 PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC2 > 0 & PUNTUACIONES_LISA$lag_sTC2 <= 0) & 
-                    (P.Local_Moran_I[,"TC2"] <= 0.01), "quad_sig"] <- 3
+                    (P.Local_Moran_I[,"TC2"] <= pv), "quad_sig"] <- 3
 PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC2 <= 0 & PUNTUACIONES_LISA$lag_sTC2 > 0) & 
-                    (P.Local_Moran_I[,"TC2"] <= 0.01), "quad_sig"] <- 4
+                    (P.Local_Moran_I[,"TC2"] <= pv), "quad_sig"] <- 4
 PUNTUACIONES_LISA[is.na(PUNTUACIONES_LISA$quad_sig), "quad_sig"] <- 5
-clases<-c("Alto-Alto", "Bajo-Bajo", "Alto-Bajo", "Bajo-Alto", "No signif.")
-colors <- c("red", "blue", "lightpink", "skyblue2", "white")
 table(PUNTUACIONES_LISA$quad_sig)
 sum(P.Local_Moran_I[,"TC2"]<0.01)
 barrios$quad_sig<-clases[PUNTUACIONES_LISA$quad_sig]
+# Definimos los colores
+colores_lisa<-paleta_lisa[as.numeric(names(table(PUNTUACIONES_LISA$quad_sig)))]
+
 # Dibujamos el mapa LISA para el segundo factor
-qtm2<-qtm(shp = barrios, fill = "quad_sig", fill.title="LISA", 
-          fill.palette=c('Alto-Alto'='red', 'Alto-Bajo'='lightpink', 
-                         'Bajo-Alto'='skyblue2', 'Bajo-Bajo'='blue', 
-                         'No signif.'='white'))+
+qtm2<-qtm(shp = barrios, fill = "quad_sig", fill.title="LISA",
+          fill.palette=colores_lisa)+
   tm_layout(legend.width = 0.7, main.title = "TC2", main.title.size = 0.8)
 png("LISA TC2.png", width = 9, height = 5, units = 'in', res = 300)
 qtm2
@@ -144,24 +152,23 @@ PUNTUACIONES_LISA$lag_sTC3 <- lag.listw(W, PUNTUACIONES_LISA$sTC3,
 # Identificamos el cuadrante en el grafico de Moran de cada observacion
 PUNTUACIONES_LISA$quad_sig <- NA
 PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC3 > 0 & PUNTUACIONES_LISA$lag_sTC3 > 0) & 
-                    (P.Local_Moran_I[,"TC3"] <= 0.01), "quad_sig"] <- 1
+                    (P.Local_Moran_I[,"TC3"] <= pv), "quad_sig"] <- 1
 PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC3 <= 0 & PUNTUACIONES_LISA$lag_sTC3 <= 0) & 
-                    (P.Local_Moran_I[,"TC3"] <= 0.01), "quad_sig"] <- 2
+                    (P.Local_Moran_I[,"TC3"] <= pv), "quad_sig"] <- 2
 PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC3 > 0 & PUNTUACIONES_LISA$lag_sTC3 <= 0) & 
-                    (P.Local_Moran_I[,"TC3"] <= 0.01), "quad_sig"] <- 3
+                    (P.Local_Moran_I[,"TC3"] <= pv), "quad_sig"] <- 3
 PUNTUACIONES_LISA[(PUNTUACIONES_LISA$sTC3 <= 0 & PUNTUACIONES_LISA$lag_sTC3 > 0) & 
-                    (P.Local_Moran_I[,"TC3"] <= 0.01), "quad_sig"] <- 4
+                    (P.Local_Moran_I[,"TC3"] <= pv), "quad_sig"] <- 4
 PUNTUACIONES_LISA[is.na(PUNTUACIONES_LISA$quad_sig), "quad_sig"] <- 5
-clases<-c("Alto-Alto", "Bajo-Bajo", "Alto-Bajo", "Bajo-Alto", "No signif.")
-colors <- c("red", "blue", "lightpink", "skyblue2", "white")
 table(PUNTUACIONES_LISA$quad_sig)
 sum(P.Local_Moran_I[,"TC3"]<0.01)
 barrios$quad_sig<-clases[PUNTUACIONES_LISA$quad_sig]
+# Definimos los colores
+colores_lisa<-paleta_lisa[as.numeric(names(table(PUNTUACIONES_LISA$quad_sig)))]
+
 # Dibujamos el mapa LISA para el tercer factor
-qtm3<-qtm(shp = barrios, fill = "quad_sig", fill.title="LISA", 
-          fill.palette=c('Alto-Alto'='red', 'Alto-Bajo'='lightpink', 
-                         'Bajo-Alto'='skyblue2', 'Bajo-Bajo'='blue', 
-                         'No signif.'='white'))+
+qtm3<-qtm(shp = barrios, fill = "quad_sig", fill.title="LISA",
+          fill.palette=colores_lisa)+
   tm_layout(legend.width = 0.7, main.title = "TC3", main.title.size = 0.8)
 png("LISA TC3.png", width = 9, height = 5, units = 'in', res = 300)
 qtm3

@@ -188,11 +188,9 @@ metodo="Average-Linkage"
 valor_ok<-clus_cut11
 # Obtenemos el dendograma
 clus$labels<-etiquetas
-png("Dendograma 11 Average-Linkage.png", width = 12, height = 12, units = 'in', res = 300)
+png("Dendograma.png", width = 12, height = 12, units = 'in', res = 300)
 plot(as.phylo(clus), type = "fan", tip.color = colors11[clus_cut11], 
-     label.offset = 0, cex = 1.2,cex.main=2, cex.sub=1.5,
-     main=paste0("Barrios de Val\u00E8ncia agrupados en 11 clusters"), 
-     sub="Clasificaci\u00F3n jer\u00E1rquica por el m\u00E9todo de Average-Linkage 
-     considerando la distancia m\u00E1xima")
+     label.offset = 0, cex = 1.2,cex.main=2,
+     main=paste0("Barrios de Val\u00E8ncia agrupados en 11 clusters"))
 dev.off()
 # Dibujariamos el mapa con los clusters de forma analoga al anterior
