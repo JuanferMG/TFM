@@ -116,7 +116,9 @@ Ind30<-sibila("Media_Personas_Hojas_Fam")
 save(Ind01, Ind02, Ind03, Ind04, Ind05, Ind06, Ind07, Ind08, Ind09, Ind10,
      Ind11, Ind12, Ind13, Ind14, Ind15, Ind16, Ind17, Ind18, Ind19, Ind20,
      Ind21, Ind22, Ind23, Ind24, Ind25, Ind26, Ind27, Ind28, Ind29, Ind30,
-     file = "Predicciones2019_2021.RDA")
+     file = "Predicciones.RDA")
+
+load("Predicciones.RDA")
 
 # Creamos el data.frame con los indicadores con los que vamos a trabajar
 f=3 #La tercera fila contiene las estimaciones para el anyo 2021
@@ -139,18 +141,21 @@ Pond2<-(DatosBA$PobT[which(DatosBA$Anyo==2017)])-(
 Pond3<-(DatosBA$PobT[which(DatosBA$Anyo==2018)])-
   (DatosBA$PobT0_15[which(DatosBA$Anyo==2018)])
 # Indicador 31: Renta media por persona
-Ind31<-(Pond1*datosBA_renta2015$Indicador1+
-          Pond2*datosBA_renta2016$Indicador1+
-          Pond3*datosBA_renta2017$Indicador1)/(Pond1+Pond2+Pond3)
+Ind31<-(Pond1*DatosBA_RENTA$Indicador1[which(DatosBA_RENTA$Anyo==2015)]+
+        Pond2*DatosBA_RENTA$Indicador1[which(DatosBA_RENTA$Anyo==2016)]+
+        Pond3*DatosBA_RENTA$Indicador1[which(DatosBA_RENTA$Anyo==2017)])
+Ind31<-Ind31/(Pond1+Pond2+Pond3)
 # Indicador 32: Renta media por hogar
-Ind32<-(Pond1*datosBA_renta2015$Indicador2+
-          Pond2*datosBA_renta2016$Indicador2+
-          Pond3*datosBA_renta2017$Indicador2)/(Pond1+Pond2+Pond3)
+Ind32<-(Pond1*DatosBA_RENTA$Indicador2[which(DatosBA_RENTA$Anyo==2015)]+
+        Pond2*DatosBA_RENTA$Indicador2[which(DatosBA_RENTA$Anyo==2016)]+
+        Pond3*DatosBA_RENTA$Indicador2[which(DatosBA_RENTA$Anyo==2017)])
+Ind32<-Ind32/(Pond1+Pond2+Pond3)
 # Indicador 33: Poblacion con ingresos por unidad de consumo por  
 # debajo del 60 % de la mediana
-Ind33<-(Pond1*datosBA_renta2015$Indicador64+
-          Pond2*datosBA_renta2016$Indicador64+
-          Pond3*datosBA_renta2017$Indicador64)/(Pond1+Pond2+Pond3)
+Ind33<-(Pond1*DatosBA_RENTA$Indicador64[which(DatosBA_RENTA$Anyo==2015)]+
+        Pond2*DatosBA_RENTA$Indicador64[which(DatosBA_RENTA$Anyo==2016)]+
+        Pond3*DatosBA_RENTA$Indicador64[which(DatosBA_RENTA$Anyo==2017)])
+Ind33<-Ind33/(Pond1+Pond2+Pond3)
 # Incorporamos al conjunto de indicadores demograficos las variables de renta
 DataSet<-cbind(DataSet, Ind31, Ind32, Ind33)
 # Normalizamos el conjunto de datos tipifcando con la funcion scale()
