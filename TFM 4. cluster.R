@@ -30,6 +30,7 @@ fviz_cluster(object = KMclus, data = PUNTUACIONES,
              choose.vars = c("TC1","TC2")) + theme_minimal()  +
   labs(title="Diagrama de dispersi\u00F3n TC1xTC2 con los barrios 
        de Val\u00E8ncia agrupados en 5 clusters",
+       x="TC1: Vejez", y="TC2: Migraci\u00F3n",
        caption="Clasificaci\u00F3n por el algoritmo de las k-medias") + 
   theme(legend.position = "none")+
   scale_colour_brewer(palette = "Dark2") +
@@ -42,6 +43,7 @@ fviz_cluster(object = KMclus, data = PUNTUACIONES,
              choose.vars = c("TC1","TC3")) + theme_minimal()  +
   labs(title="Diagrama de dispersi\u00F3n TC1xTC3 con los barrios 
        de Val\u00E8ncia agrupados en 5 clusters",
+       x="TC1: Vejez", y="TC3: Riqueza",
        caption="Clasificaci\u00F3n por el algoritmo de las k-medias") + 
   theme(legend.position = "none")+
   scale_colour_brewer(palette = "Dark2") +
@@ -54,6 +56,7 @@ fviz_cluster(object = KMclus, data = PUNTUACIONES,
              choose.vars = c("TC2","TC3")) + theme_minimal()  +
   labs(title="Diagrama de dispersi\u00F3n TC2xTC3 con los barrios 
        de Val\u00E8ncia agrupados en 5 clusters",
+       x="TC2: Migraci\u00F3n", y="TC3: Riqueza",
        caption="Clasificaci\u00F3n por el algoritmo de las k-medias") + 
   theme(legend.position = "none")+
   scale_colour_brewer(palette = "Dark2") +
