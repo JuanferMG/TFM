@@ -31,7 +31,9 @@ fviz_cluster(object = KMclus, data = PUNTUACIONES,
   labs(title="Diagrama de dispersi\u00F3n TC1xTC2 con los barrios 
        de Val\u00E8ncia agrupados en 5 clusters",
        caption="Clasificaci\u00F3n por el algoritmo de las k-medias") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  scale_colour_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2")
 dev.off()
 # TC1xTC3
 png(paste0("Diagrama de dispersi\u00F3n K-Means TC1xTC3.png"), 
@@ -41,7 +43,9 @@ fviz_cluster(object = KMclus, data = PUNTUACIONES,
   labs(title="Diagrama de dispersi\u00F3n TC1xTC3 con los barrios 
        de Val\u00E8ncia agrupados en 5 clusters",
        caption="Clasificaci\u00F3n por el algoritmo de las k-medias") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  scale_colour_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2")
 dev.off()
 # TC2xTC3
 png(paste0("Diagrama de dispersi\u00F3n K-Means TC2xTC3.png"), 
@@ -51,7 +55,9 @@ fviz_cluster(object = KMclus, data = PUNTUACIONES,
   labs(title="Diagrama de dispersi\u00F3n TC2xTC3 con los barrios 
        de Val\u00E8ncia agrupados en 5 clusters",
        caption="Clasificaci\u00F3n por el algoritmo de las k-medias") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  scale_colour_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2")
 dev.off()
 paleta=brewer.pal(5,"Dark2")
 metodo="K-Means"
