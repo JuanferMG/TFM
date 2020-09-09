@@ -97,8 +97,7 @@ print(COMPONENTES, cut = 0.5, digits = 3)
 DataSetCut<-DataSet[-c(2,3,4,5,11,19,22,23,30)]
 COMPONENTES<-principal(cor(DataSetCut), nfactors=num.factores, rotate="simplimax")
 print(COMPONENTES, cut = 0.5, digits = 3)
-# 10. Quitamos el indicador 13, al no ser especifico de un factor y tener 
-# mayor complejidad: 2.98 (cross-loadings)
+# 10. Quitamos el indicador 13, al tener mayor complejidad: 2.98 (cross-loadings)
 DataSetCut<-DataSet[-c(2,3,4,5,11,13,19,22,23,30)]
 COMPONENTES<-principal(cor(DataSetCut), nfactors=num.factores, rotate="simplimax")
 print(COMPONENTES, cut = 0.5, digits = 3)
@@ -126,7 +125,7 @@ rownames(PUNTUACIONES)<-unique(DatosBA$Barrio)
 # TC3=RIQUEZA (Indicadores 31, 32, 33)
 
 # Estudiamos la fiabilidad de la consistencia interna de los factores 
-# calculando el apha de Cronbach
+# calculando el alpha de Cronbach
 print(COMPONENTES$loadings, cut = 0.5, digits = 3)
 TC1<-c("Ind01", "Ind06", "Ind12", "Ind14", "Ind15", "Ind16",
        "Ind17", "Ind25", "Ind26", "Ind28", "Ind29")
