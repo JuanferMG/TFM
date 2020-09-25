@@ -38,7 +38,6 @@ MonteCarlo_Geary<-apply(PUNTUACIONES_new, 2,
 # ***** Localizacion *****
 
 # Local Moran's I:
-
 # La funcion localmoran calcula el estadistico local y ademas devuelve
 # unos p-valores con los que evaluar la significacion estadistica
 P.Local_Moran_I<-apply(PUNTUACIONES_new, 2, function(x) 
@@ -56,7 +55,6 @@ P.Local_Moran_I[is.na(P.Local_Moran_I)]<-1
 pv_base<-0.01
 
 # ***********************
-
 
 # False Discovery Rate
 
@@ -79,7 +77,6 @@ umbralTC3<-c(pv_base,pv_FDR3,pv_bonferroni)
 nombres<-c("0,01", "FDR", "Bonferroni")
 
 # Dibujamos los mapas LISA Local Moran's I 
-
 for(u in 1:3){
   
   PUNTUACIONES_LISA<-PUNTUACIONES_new
@@ -112,7 +109,8 @@ for(u in 1:3){
   qtm1<-qtm(shp = barrios_new, fill = "quad_sig", fill.title="LISA",
             fill.palette=colores_lisa)+
     tm_layout(legend.width = 0.7, main.title = "TC1", main.title.size = 0.8)
-  png(paste0("LISA TC1 ",nombres[u],".png"), width = 9, height = 5, units = 'in', res = 300)
+  png(paste0("LISA TC1 ",nombres[u],".png"), width = 9, height = 5, 
+      units = 'in', res = 300)
   qtm1
   dev.off()
   
@@ -140,7 +138,8 @@ for(u in 1:3){
   qtm2<-qtm(shp = barrios_new, fill = "quad_sig", fill.title="LISA",
             fill.palette=colores_lisa)+
     tm_layout(legend.width = 0.7, main.title = "TC2", main.title.size = 0.8)
-  png(paste0("LISA TC2 ",nombres[u],".png"), width = 9, height = 5, units = 'in', res = 300)
+  png(paste0("LISA TC2 ",nombres[u],".png"), width = 9, height = 5, 
+      units = 'in', res = 300)
   qtm2
   dev.off()
   
@@ -167,18 +166,18 @@ for(u in 1:3){
   qtm3<-qtm(shp = barrios_new, fill = "quad_sig", fill.title="LISA",
             fill.palette=colores_lisa)+
     tm_layout(legend.width = 0.7, main.title = "TC3", main.title.size = 0.8)
-  png(paste("LISA TC3 ",nombres[u],".png"), width = 9, height = 5, units = 'in', res = 300)
+  png(paste("LISA TC3 ",nombres[u],".png"), width = 9, height = 5, 
+      units = 'in', res = 300)
   qtm3
   dev.off()
   
   # Juntamos los tres mapas en uno 
-  png(paste0("LISA Local Moran's I ",nombres[u],".png"), width = 9, height = 5, units = 'in', res = 300)
+  png(paste0("LISA Local Moran's I ",nombres[u],".png"), width = 9, height = 5, 
+      units = 'in', res = 300)
   tmap_arrange(qtm1, qtm2, qtm3)
   dev.off()
   
-  
 }
-
 
 
 #*************************
@@ -194,19 +193,19 @@ barrios_new$G_Renta<-Local_G[,"TC3"]
 # Dibujamos los mapas usando el paquete tm
 G_mapa_vejez<-tm_shape(barrios_new) + 
   tm_fill("G_Vejez",title = "Local Gi*",
-          palette = "RdBu", style="pretty") +
+          palette = rev(brewer.pal(n = 11, name = "RdBu")), style="pretty") +
   tm_borders(alpha=.4)+tm_layout(legend.width = 0.7, main.title = "TC1", 
                                  main.title.size = 0.8)
 
 G_mapa_migracion<-tm_shape(barrios_new) + 
   tm_fill("G_Migracion",title = paste0("Local Gi*"),
-          palette = "RdBu", style="pretty") +
+          palette = rev(brewer.pal(n = 11, name = "RdBu")), style="pretty") +
   tm_borders(alpha=.4)+tm_layout(legend.width = 0.7, main.title = "TC2", 
                                  main.title.size = 0.8)
 
 G_mapa_renta<-tm_shape(barrios_new) + 
   tm_fill("G_Renta",title = paste0("Local Gi*"),
-          palette = "RdBu", style="pretty") +
+          palette = rev(brewer.pal(n = 11, name = "RdBu")), style="pretty") +
   tm_borders(alpha=.4)+tm_layout(legend.width = 0.7, main.title = "TC3", 
                                  main.title.size = 0.8)
 

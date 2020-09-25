@@ -107,7 +107,7 @@ for(i in 1:3){
 datos_31253<-datos_31253[c(1:4,grep(pattern = "Val\u00E8ncia", x = datos_31253[,1])),]
 df<-c()
 for(j in 2:ncol(datos_31253)){
-  df_inter<-data.frame(paste0(datos_31253[c(5:nrow(datos_31253)),1],". ", datos_31253[1,j], ". ", datos_31253[2,j], ". ", datos_31253[3,j],"."), as.numeric(datos_31253[4,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = datos_31253[c(5:nrow(datos_31253)),j])))
+  df_inter<-data.frame(paste0(datos_31253[c(5:nrow(datos_31253)),1],". ", datos_31253[1,j], ". ", datos_31253[2,j], ". ", datos_31253[3,j],"."), as.numeric(datos_31253[4,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = gsub(pattern = "\\.", replacement = "", datos_31253[c(5:nrow(datos_31253)),j]))))
   colnames(df_inter)<-c("Nombre", "Anyo", "Valor")
   df<-rbind(df,df_inter)
 }
@@ -131,7 +131,7 @@ for(i in 1:3){
 datos_31254<-datos_31254[c(1:4,grep(pattern = "Val\u00E8ncia", x = datos_31254[,1])),]
 df<-c()
 for(j in 2:ncol(datos_31254)){
-  df_inter<-data.frame(paste0(datos_31254[c(5:nrow(datos_31254)),1],". ", datos_31254[1,j], ". ", datos_31254[2,j], ". ", datos_31254[3,j],"."), as.numeric(datos_31254[4,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = datos_31254[c(5:nrow(datos_31254)),j])))
+  df_inter<-data.frame(paste0(datos_31254[c(5:nrow(datos_31254)),1],". ", datos_31254[1,j], ". ", datos_31254[2,j], ". ", datos_31254[3,j],"."), as.numeric(datos_31254[4,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = gsub(pattern = "\\.", replacement = "", datos_31254[c(5:nrow(datos_31254)),j]))))
   colnames(df_inter)<-c("Nombre", "Anyo", "Valor")
   df<-rbind(df,df_inter)
 }
@@ -179,7 +179,7 @@ for(i in 1:3){
 datos_31256<-datos_31256[c(1:4,grep(pattern = "Val\u00E8ncia", x = datos_31256[,1])),]
 df<-c()
 for(j in 2:ncol(datos_31256)){
-  df_inter<-data.frame(paste0(datos_31256[c(5:nrow(datos_31256)),1],". ", datos_31256[1,j], ". ", datos_31256[2,j], ". ", datos_31256[3,j],"."), as.numeric(datos_31256[4,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = datos_31256[c(5:nrow(datos_31256)),j])))
+  df_inter<-data.frame(paste0(datos_31256[c(5:nrow(datos_31256)),1],". ", datos_31256[1,j], ". ", datos_31256[2,j], ". ", datos_31256[3,j],"."), as.numeric(datos_31256[4,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = gsub(pattern = "\\.", replacement = "", datos_31256[c(5:nrow(datos_31256)),j]))))
   colnames(df_inter)<-c("Nombre", "Anyo", "Valor")
   df<-rbind(df,df_inter)
 }
@@ -203,7 +203,7 @@ for(i in 1:3){
 datos_31257<-datos_31257[c(1:4,grep(pattern = "Val\u00E8ncia", x = datos_31257[,1])),]
 df<-c()
 for(j in 2:ncol(datos_31257)){
-  df_inter<-data.frame(paste0(datos_31257[c(5:nrow(datos_31257)),1],". ", datos_31257[1,j], ". ", datos_31257[2,j], ". ", datos_31257[3,j],"."), as.numeric(datos_31257[4,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = datos_31257[c(5:nrow(datos_31257)),j])))
+  df_inter<-data.frame(paste0(datos_31257[c(5:nrow(datos_31257)),1],". ", datos_31257[1,j], ". ", datos_31257[2,j], ". ", datos_31257[3,j],"."), as.numeric(datos_31257[4,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = gsub(pattern = "\\.", replacement = "", datos_31257[c(5:nrow(datos_31257)),j]))))
   colnames(df_inter)<-c("Nombre", "Anyo", "Valor")
   df<-rbind(df,df_inter)
 }
@@ -227,7 +227,7 @@ for(i in 1:1){
 datos_31258<-datos_31258[c(1:2,grep(pattern = "Val\u00E8ncia", x = datos_31258[,1])),]
 df<-c()
 for(j in 2:ncol(datos_31258)){
-  df_inter<-data.frame(paste0(datos_31258[c(3:nrow(datos_31258)),1],". ", datos_31258[1,j]), as.numeric(datos_31258[2,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = gsub(pattern = "\\.", replacement = "", x = datos_31258[c(3:nrow(datos_31258)),j]))))
+  df_inter<-data.frame(paste0(datos_31258[c(3:nrow(datos_31258)),1],". ", datos_31258[1,j]), as.numeric(datos_31258[2,j]), as.numeric(gsub(pattern = ",", replacement = "\\.", x = gsub(pattern = "\\.", replacement = "", x = gsub(pattern = "\\.", replacement = "", datos_31258[c(3:nrow(datos_31258)),j])))))
   colnames(df_inter)<-c("Nombre", "Anyo", "Valor")
   df<-rbind(df,df_inter)
 }
@@ -253,10 +253,11 @@ datosSC<-datos_ciudad[grep(pattern = "secci\u00F3n", x = datos_ciudad$Nombre),]
 # Anyadimos dos columnas que codifiquen el indicador y la seccion
 datosSC$Indicador<-NA
 datosSC$SC<-NA
+datosSC$NombreIndicador<-sub("^\\S+\\s+", '',sub("^\\S+\\s+", '',sub("^\\S+\\s+", '',datosSC$Nombre)))
 for(i in 1:nrow(CodigosRenta)){
   # Quitamos las 3 primeras palabras del la primera columna y buscamos
   # el codigo asociado a dicho indicador para la asignacion
-  datosSC$Indicador[which(sub("^\\S+\\s+", '',sub("^\\S+\\s+", '',sub("^\\S+\\s+", '',datosSC$Nombre)))==CodigosRenta$Nombre[i])]<-CodigosRenta$Codigo[i]
+  datosSC$Indicador[which(datosSC$NombreIndicador==CodigosRenta$Nombre[i])]<-CodigosRenta$Codigo[i]
 }
 # Extraemos la primera palabra que queda tras eliminar las dos primeras
 # de Valencia y seccion para obtener los codigos de la seccion
@@ -264,9 +265,7 @@ codigosSC<-data.frame(paste0("secci\u00F3n ", unique(as.character(str_extract(su
 colnames(codigosSC)<-c("Nombre", "Codigo")
 codigosSC$Nombre<-as.character(codigosSC$Nombre)
 # Asignamos los codigos de seccion
-for(i in 1:nrow(codigosSC)){
-  datosSC$SC[grep(pattern = codigosSC$Nombre[i], x = datosSC$Nombre)]<-codigosSC$Codigo[i]
-}
+datosSC$SC<-as.numeric(as.character(sub(pattern = "\\.", replacement = "", x = word(string = datosSC$Nombre, start = 3, end = 3))))
 
 
 # Creamos la matriz que relaciona las secciones con los barrios
@@ -297,11 +296,6 @@ for(i in 1:nrow(codigosSC)){
   datosSC$BA[datosSC$SC==codigosSC$Codigo[i]]<-codigosSC$BA[i]
 }
 
-# Agregaremos ponderando la media por las poblaciones de las secciones que
-# usa el INE, guardadas como el indicador 175. Definimos primero los pesos
-pesos2015<-datosSC$Valor[which(datosSC$Anyo==2015 & datosSC$Indicador==175)]
-pesos2016<-datosSC$Valor[which(datosSC$Anyo==2016 & datosSC$Indicador==175)]
-pesos2017<-datosSC$Valor[which(datosSC$Anyo==2017 & datosSC$Indicador==175)]
 # Nos quedamos con los indicadores que tengan datos
 datosSC_validos<-datosSC[which(!is.na(datosSC$Valor)),]
 indicadores2015<-CodigosRenta[CodigosRenta$Codigo %in% unique(datosSC_validos$Indicador[datosSC_validos$Anyo==2015]),]
@@ -313,11 +307,11 @@ any=2015
 # Las dos primeras variables identifican el barrio y el anyo
 datosBA_renta2015<-cbind(c(1:85),any)
 for(i in 1:nrow(indicadores2015)){
-  # Filtramos los valores de cada indicador, incluyendo los barrios y los pesos
+  # Filtramos los valores de cada indicador, incluyendo los barrios
   ind=indicadores2015$Codigo[i]
-  datosSC_filtro<-data.frame(BA=codigosSC$BA, Indicador=datosSC$Valor[which(datosSC$Anyo==any & datosSC$Indicador==ind)], Pesos=paste0("pesos",any))
-  # Con la funcion ddply calculamos la media ponderada del indicador para cada barrio
-  datosBA<-ddply(datosSC_filtro, .(BA), function(x) data.frame(Indicador=weighted.mean(x$Indicador, x$Pesos)))
+  datosSC_filtro<-data.frame(BA=codigosSC$BA, Indicador=datosSC$Valor[which(datosSC$Anyo==any & datosSC$Indicador==ind)])
+  # Con la funcion ddply calculamos la media del indicador para cada barrio
+  datosBA<-ddply(datosSC_filtro, .(BA), function(x) data.frame(Indicador=mean(x$Indicador)))
   # Los barrios 17.4 y 17.5 (BA=74) tendran el mismo valor que el barrio 17.1 (BA=71)
   datosBA<-rbind(datosBA[1:73,],datosBA[71,],datosBA[74:nrow(datosBA),])
   datosBA[74,1]<-74
@@ -338,8 +332,8 @@ any=2016
 datosBA_renta2016<-cbind(c(1:85),any)
 for(i in 1:nrow(indicadores2016)){
   ind=indicadores2016$Codigo[i]
-  datosSC_filtro<-data.frame(BA=codigosSC$BA, Indicador=datosSC$Valor[which(datosSC$Anyo==any & datosSC$Indicador==ind)], Pesos=paste0("pesos",any))
-  datosBA<-ddply(datosSC_filtro, .(BA), function(x) data.frame(Indicador=weighted.mean(x$Indicador, x$Pesos)))
+  datosSC_filtro<-data.frame(BA=codigosSC$BA, Indicador=datosSC$Valor[which(datosSC$Anyo==any & datosSC$Indicador==ind)])
+  datosBA<-ddply(datosSC_filtro, .(BA), function(x) data.frame(Indicador=mean(x$Indicador)))
   datosBA<-rbind(datosBA[1:73,],datosBA[71,],datosBA[74:nrow(datosBA),])
   datosBA[74,1]<-74
   datosBA_renta2016<-cbind(datosBA_renta2016,datosBA$Indicador)
@@ -353,8 +347,8 @@ any=2017
 datosBA_renta2017<-cbind(c(1:85),any)
 for(i in 1:nrow(indicadores2017)){
   ind=indicadores2017$Codigo[i]
-  datosSC_filtro<-data.frame(BA=codigosSC$BA, Indicador=datosSC$Valor[which(datosSC$Anyo==any & datosSC$Indicador==ind)], Pesos=paste0("pesos",any))
-  datosBA<-ddply(datosSC_filtro, .(BA), function(x) data.frame(Indicador=weighted.mean(x$Indicador, x$Pesos)))
+  datosSC_filtro<-data.frame(BA=codigosSC$BA, Indicador=datosSC$Valor[which(datosSC$Anyo==any & datosSC$Indicador==ind)])
+  datosBA<-ddply(datosSC_filtro, .(BA), function(x) data.frame(Indicador=mean(x$Indicador)))
   datosBA<-rbind(datosBA[1:73,],datosBA[71,],datosBA[74:nrow(datosBA),])
   datosBA[74,1]<-74
   datosBA_renta2017<-cbind(datosBA_renta2017,datosBA$Indicador)
